@@ -10,7 +10,7 @@
 ## Install
 
 ```sh
-git clone https://github.com/peguimasid/Ignite-RN-MySkills.git
+git clone https://github.com/peguimasid/Ignite-RN-GoFinances.git
 ```
 
 ## Install dependencies
