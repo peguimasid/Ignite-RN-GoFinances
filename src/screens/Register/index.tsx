@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 
-import { Input } from "../../components/Form/Input";
+import { Input } from '../../components/Form/Input';
+import { Button } from '../../components/Form/Button';
 
-import { Container, Header, Title, Form } from "./styles";
+import { Container, Header, Title, Form, Fields } from './styles';
 
 export const Register: FunctionComponent = () => {
   return (
@@ -11,8 +12,11 @@ export const Register: FunctionComponent = () => {
         <Title>Cadastro</Title>
       </Header>
       <Form>
-        <Input placeholder="Nome" />
-        <Input placeholder="Preço" />
+        <Fields>
+          <Input placeholder="Nome" />
+          <Input placeholder="Preço" />
+        </Fields>
+        <Button>Enviar</Button>
       </Form>
     </Container>
   );
