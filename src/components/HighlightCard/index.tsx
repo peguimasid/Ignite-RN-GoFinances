@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent, useMemo } from 'react';
 
 import {
   Container,
@@ -8,10 +8,10 @@ import {
   Footer,
   Amount,
   LastTransaction,
-} from "./styles";
+} from './styles';
 
 interface CardProps {
-  type: "up" | "down" | "total";
+  type: 'up' | 'down' | 'total';
   title: string;
   amount: string;
   lastTransaction: string;
@@ -25,9 +25,9 @@ export const HighlightCard: FunctionComponent<CardProps> = ({
 }) => {
   const iconName = useMemo(() => {
     const icons = {
-      up: "arrow-up-circle",
-      down: "arrow-down-circle",
-      total: "dollar-sign",
+      up: 'arrow-up-circle',
+      down: 'arrow-down-circle',
+      total: 'dollar-sign',
     };
 
     return icons[type];
