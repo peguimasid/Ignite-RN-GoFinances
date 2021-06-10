@@ -12,6 +12,7 @@ import {
   TransactionTypesContainer,
 } from './styles';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
+import { CategorySelect } from '../../components/Form/CategorySelect';
 
 export const Register: FunctionComponent = () => {
   const [transactionType, setTransacionType] = useState<string | null>(null);
@@ -47,6 +48,7 @@ export const Register: FunctionComponent = () => {
               onPress={handleOutcomePress}
             />
           </TransactionTypesContainer>
+          <CategorySelect title="Categoria" />
         </Fields>
         <Button>Enviar</Button>
       </Form>
