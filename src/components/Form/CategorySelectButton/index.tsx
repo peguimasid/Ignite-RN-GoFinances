@@ -1,16 +1,18 @@
 import React, { FunctionComponent } from 'react';
+import { TouchableOpacityProps } from 'react-native';
 
 import { Container, Category, Icon } from './styles';
 
-interface CategorySelectProps {
+interface CategorySelectProps extends TouchableOpacityProps {
   title: string;
 }
 
-export const CategorySelect: FunctionComponent<CategorySelectProps> = ({
+export const CategorySelectButton: FunctionComponent<CategorySelectProps> = ({
   title,
+  ...rest
 }) => {
   return (
-    <Container>
+    <Container {...rest}>
       <Category>{title}</Category>
       <Icon name="chevron-down" />
     </Container>

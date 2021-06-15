@@ -1,8 +1,12 @@
 import { RFValue } from 'react-native-responsive-fontsize';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
+
+interface SelectedProps {
+  selected: boolean;
+}
 
 export const Container = styled.View`
   flex: 1;
@@ -24,24 +28,36 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
 `;
 
-export const Category = styled.View`
+export const Category = styled(TouchableOpacity)`
   width: 100%;
   flex-direction: row;
   align-items: center;
 
   padding: ${RFValue(15)}px;
-  margin: 5px;
 `;
 
-export const Icon = styled(Feather)`
+export const Icon = styled(Feather)<SelectedProps>`
   font-size: ${RFValue(20)}px;
   color: ${({ theme }) => theme.colors.title};
   margin-right: ${RFValue(16)}px;
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      color: ${({ theme }) => theme.colors.secondary};
+    `}
 `;
 
-export const Label = styled.Text`
+export const Label = styled.Text<SelectedProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
+  color: ${({ theme }) => theme.colors.title};
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      color: ${({ theme }) => theme.colors.secondary};
+    `}
 `;
 
 export const HorizontalRow = styled.View`
