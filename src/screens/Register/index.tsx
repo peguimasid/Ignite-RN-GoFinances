@@ -2,7 +2,8 @@ import React, { FunctionComponent, useCallback, useState } from 'react';
 
 import { Modal } from 'react-native';
 
-import { Input } from '../../components/Form/Input';
+import { useForm } from 'react-hook-form';
+import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
 
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
@@ -19,6 +20,11 @@ import {
   TransactionTypesContainer,
 } from './styles';
 
+interface FormData {
+  name: string;
+  amount: number;
+}
+
 export const Register: FunctionComponent = () => {
   const [transactionType, setTransacionType] = useState<string | null>(null);
   const [categoryModalOpen, setCategoryModalOpen] = useState<boolean>(false);
@@ -26,6 +32,8 @@ export const Register: FunctionComponent = () => {
     key: 'category',
     name: 'Categoria',
   });
+
+  const { control, handleSubmit } = useForm();
 
   const handleIncomePress = useCallback(() => {
     setTransacionType('up');
@@ -43,6 +51,19 @@ export const Register: FunctionComponent = () => {
     setCategoryModalOpen(false);
   }, []);
 
+  const handleRegister = useCallback(
+    (form: FormData) => {
+      const data = {
+        ...form,
+        transactionType,
+        category: category.key,
+      };
+
+      console.log(data);
+    },
+    [transactionType, category]
+  );
+
   return (
     <Container>
       <Header>
@@ -50,8 +71,13 @@ export const Register: FunctionComponent = () => {
       </Header>
       <Form>
         <Fields>
-          <Input placeholder="Nome" />
-          <Input placeholder="Preço" />
+          <InputForm name="name" control={control} placeholder="Nome" />
+          <InputForm
+            name="amount"
+            control={control}
+            keyboardType="numeric"
+            placeholder="Preço"
+          />
           <TransactionTypesContainer>
             <TransactionTypeButton
               type="up"
@@ -71,7 +97,7 @@ export const Register: FunctionComponent = () => {
             onPress={openSelectCategoryModal}
           />
         </Fields>
-        <Button>Enviar</Button>
+        <Button onPress={handleSubmit(handleRegister)}>Enviar</Button>
       </Form>
 
       <Modal animationType="slide" visible={categoryModalOpen}>
