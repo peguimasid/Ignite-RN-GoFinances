@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useCallback, useState } from 'react';
 
-import { Modal } from 'react-native';
+import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 
 import { useForm } from 'react-hook-form';
 import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
@@ -25,6 +27,14 @@ interface FormData {
   amount: number;
 }
 
+const schema = yup.object().shape({
+  name: yup.string().required('O nome é obrigatório'),
+  amount: yup
+    .number()
+    .typeError('Informe um valor numérico')
+    .positive('O valor não pode ser negativo'),
+});
+
 export const Register: FunctionComponent = () => {
   const [transactionType, setTransacionType] = useState<string | null>(null);
   const [categoryModalOpen, setCategoryModalOpen] = useState<boolean>(false);
@@ -33,7 +43,13 @@ export const Register: FunctionComponent = () => {
     name: 'Categoria',
   });
 
-  const { control, handleSubmit } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const handleIncomePress = useCallback(() => {
     setTransacionType('up');
@@ -53,6 +69,13 @@ export const Register: FunctionComponent = () => {
 
   const handleRegister = useCallback(
     (form: FormData) => {
+      if (!transactionType) {
+        return Alert.alert('Selecione o tipo da transação');
+      }
+      if (category.key === 'category') {
+        return Alert.alert('Selecione a categoria da transação');
+      }
+
       const data = {
         ...form,
         transactionType,
@@ -65,48 +88,58 @@ export const Register: FunctionComponent = () => {
   );
 
   return (
-    <Container>
-      <Header>
-        <Title>Cadastro</Title>
-      </Header>
-      <Form>
-        <Fields>
-          <InputForm name="name" control={control} placeholder="Nome" />
-          <InputForm
-            name="amount"
-            control={control}
-            keyboardType="numeric"
-            placeholder="Preço"
-          />
-          <TransactionTypesContainer>
-            <TransactionTypeButton
-              type="up"
-              selected={transactionType ? transactionType === 'up' : null}
-              title="Income"
-              onPress={handleIncomePress}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <Container>
+        <Header>
+          <Title>Cadastro</Title>
+        </Header>
+        <Form>
+          <Fields>
+            <InputForm
+              name="name"
+              control={control}
+              placeholder="Nome"
+              autoCapitalize="sentences"
+              autoCorrect={false}
+              error={errors.name && errors.name.message}
             />
-            <TransactionTypeButton
-              type="down"
-              selected={transactionType ? transactionType === 'down' : null}
-              title="Outcome"
-              onPress={handleOutcomePress}
+            <InputForm
+              name="amount"
+              control={control}
+              placeholder="Preço"
+              keyboardType="numeric"
+              error={errors.amount && errors.amount.message}
             />
-          </TransactionTypesContainer>
-          <CategorySelectButton
-            title={category.name}
-            onPress={openSelectCategoryModal}
-          />
-        </Fields>
-        <Button onPress={handleSubmit(handleRegister)}>Enviar</Button>
-      </Form>
+            <TransactionTypesContainer>
+              <TransactionTypeButton
+                type="up"
+                selected={transactionType ? transactionType === 'up' : null}
+                title="Income"
+                onPress={handleIncomePress}
+              />
+              <TransactionTypeButton
+                type="down"
+                selected={transactionType ? transactionType === 'down' : null}
+                title="Outcome"
+                onPress={handleOutcomePress}
+              />
+            </TransactionTypesContainer>
+            <CategorySelectButton
+              title={category.name}
+              onPress={openSelectCategoryModal}
+            />
+          </Fields>
+          <Button onPress={handleSubmit(handleRegister)}>Enviar</Button>
+        </Form>
 
-      <Modal animationType="slide" visible={categoryModalOpen}>
-        <CategorySelect
-          category={category}
-          setCategory={setCategory}
-          closeSelectCategory={closeSelectCategoryModal}
-        />
-      </Modal>
-    </Container>
+        <Modal animationType="slide" visible={categoryModalOpen}>
+          <CategorySelect
+            category={category}
+            setCategory={setCategory}
+            closeSelectCategory={closeSelectCategoryModal}
+          />
+        </Modal>
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };

@@ -5,16 +5,18 @@ import { Control, Controller } from 'react-hook-form';
 
 import { Input } from '../Input';
 
-import { Container } from './styles';
+import { Container, Error } from './styles';
 
 interface InputFormProps extends TextInputProps {
   control: Control;
   name: string;
+  error: string;
 }
 
 export const InputForm: FunctionComponent<InputFormProps> = ({
   control,
   name,
+  error,
   ...rest
 }) => {
   return (
@@ -25,7 +27,8 @@ export const InputForm: FunctionComponent<InputFormProps> = ({
           <Input onChangeText={onChange} value={value} {...rest} />
         )}
         name={name}
-      ></Controller>
+      />
+      {error && <Error>{error}</Error>}
     </Container>
   );
 };
