@@ -1,4 +1,4 @@
-import { TouchableOpacity } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 
 import styled, { css } from 'styled-components/native';
@@ -9,7 +9,7 @@ interface TransactionProps {
   selected: boolean | null;
 }
 
-export const Container = styled(TouchableOpacity)<TransactionProps>`
+export const Container = styled(RectButton)<TransactionProps>`
   width: 48%;
   flex-direction: row;
   align-items: center;

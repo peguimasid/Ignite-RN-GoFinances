@@ -6,11 +6,12 @@ import { Container, Title, Icon } from './styles';
 interface TransactionButtonProps extends TouchableOpacityProps {
   title: string;
   type: 'up' | 'down';
+  onPress(): void;
   selected: boolean | null;
 }
 
 export const TransactionTypeButton: FunctionComponent<TransactionButtonProps> =
-  ({ type, title, selected, ...rest }) => {
+  ({ type, title, selected, onPress, ...rest }) => {
     const iconName = useMemo(() => {
       const icons = {
         up: 'arrow-up-circle',
@@ -21,7 +22,7 @@ export const TransactionTypeButton: FunctionComponent<TransactionButtonProps> =
     }, [type]);
 
     return (
-      <Container selected={selected} type={type} {...rest}>
+      <Container onPress={onPress} selected={selected} type={type} {...rest}>
         <Icon name={iconName} type={type} />
         <Title>{title}</Title>
       </Container>

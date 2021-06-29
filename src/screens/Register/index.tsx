@@ -32,7 +32,8 @@ const schema = yup.object().shape({
   amount: yup
     .number()
     .typeError('Informe um valor numérico')
-    .positive('O valor não pode ser negativo'),
+    .positive('O valor não pode ser negativo')
+    .required('O preço é obrigatório'),
 });
 
 export const Register: FunctionComponent = () => {

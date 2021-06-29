@@ -1,18 +1,20 @@
 import React, { FunctionComponent } from 'react';
-import { TouchableOpacityProps } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
 
-import { Container, Title, Icon } from './styles';
+import { Container, Title } from './styles';
 
-interface ButtonProps extends TouchableOpacityProps {
+interface ButtonProps extends RectButtonProps {
   children: string;
+  onPress(): void;
 }
 
 export const Button: FunctionComponent<ButtonProps> = ({
   children,
+  onPress,
   ...rest
 }) => {
   return (
-    <Container {...rest}>
+    <Container onPress={onPress} {...rest}>
       <Title>{children}</Title>
     </Container>
   );

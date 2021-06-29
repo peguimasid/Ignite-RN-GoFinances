@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 
-import { HighlightCard } from "../../components/HighlightCard";
+import { HighlightCard } from '../../components/HighlightCard';
 import {
   TransactionCard,
   TransactionCardProps,
-} from "../../components/TransactionCard";
+} from '../../components/TransactionCard';
 
 import {
   Container,
@@ -15,12 +15,13 @@ import {
   User,
   UserGretting,
   UserName,
+  LogoutButton,
   PowerIcon,
   HighlightCards,
   Transactions,
   Title,
   TransactionsList,
-} from "./styles";
+} from './styles';
 
 export interface ListProps extends TransactionCardProps {
   id: string;
@@ -29,37 +30,37 @@ export interface ListProps extends TransactionCardProps {
 export const Dashboard: FunctionComponent = () => {
   const data: ListProps[] = [
     {
-      id: "1",
-      type: "positive",
-      title: "Desenvolvimento de site",
-      amount: "R$ 12.000,00",
+      id: '1',
+      type: 'positive',
+      title: 'Desenvolvimento de site',
+      amount: 'R$ 12.000,00',
       category: {
-        icon: "dollar-sign",
-        name: "Vendas",
+        icon: 'dollar-sign',
+        name: 'Vendas',
       },
-      date: "13/04/2021",
+      date: '13/04/2021',
     },
     {
-      id: "2",
-      type: "negative",
-      title: "Desenvolvimento de site",
-      amount: "R$ 1.200,00",
+      id: '2',
+      type: 'negative',
+      title: 'Desenvolvimento de site',
+      amount: 'R$ 1.200,00',
       category: {
-        icon: "dollar-sign",
-        name: "Vendas",
+        icon: 'dollar-sign',
+        name: 'Vendas',
       },
-      date: "13/04/2021",
+      date: '13/04/2021',
     },
     {
-      id: "3",
-      type: "positive",
-      title: "Desenvolvimento de site",
-      amount: "R$ 12.000,00",
+      id: '3',
+      type: 'positive',
+      title: 'Desenvolvimento de site',
+      amount: 'R$ 12.000,00',
       category: {
-        icon: "dollar-sign",
-        name: "Vendas",
+        icon: 'dollar-sign',
+        name: 'Vendas',
       },
-      date: "13/04/2021",
+      date: '13/04/2021',
     },
   ];
 
@@ -70,7 +71,7 @@ export const Dashboard: FunctionComponent = () => {
           <UserInfo>
             <Photo
               source={{
-                uri: "https://avatars.githubusercontent.com/u/54289589?v=4",
+                uri: 'https://avatars.githubusercontent.com/u/54289589?v=4',
               }}
             />
             <User>
@@ -78,7 +79,9 @@ export const Dashboard: FunctionComponent = () => {
               <UserName>Guilhermo</UserName>
             </User>
           </UserInfo>
-          <PowerIcon name="power" />
+          <LogoutButton onPress={() => console.log('Sair')}>
+            <PowerIcon name="power" />
+          </LogoutButton>
         </UserWrapper>
       </Header>
 
