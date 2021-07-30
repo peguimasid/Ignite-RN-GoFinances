@@ -83,18 +83,22 @@ export const Register: FunctionComponent = () => {
         return Alert.alert('Selecione a categoria da transação');
       }
 
-      const data = {
+      const newTransaction = {
         ...form,
         transactionType,
         category: category.key,
       };
 
       try {
+        const data = await AsyncStorage.getItem('@gofinances:transactions');
+        const transactions = data ? JSON.parse(data) : [];
+
         await AsyncStorage.setItem(
           '@gofinances:transactions',
-          JSON.stringify(data)
+          JSON.stringify([...transactions, newTransaction])
         );
       } catch (err) {
+        console.log(err);
         Alert.alert('Não foi possivel salvar');
       }
     },
