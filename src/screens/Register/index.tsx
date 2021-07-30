@@ -1,7 +1,13 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, {
+  FunctionComponent,
+  useCallback,
+  useState,
+  useEffect,
+} from 'react';
 
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useForm } from 'react-hook-form';
 import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
@@ -69,7 +75,7 @@ export const Register: FunctionComponent = () => {
   }, []);
 
   const handleRegister = useCallback(
-    (form: FormData) => {
+    async (form: FormData) => {
       if (!transactionType) {
         return Alert.alert('Selecione o tipo da transação');
       }
@@ -83,10 +89,26 @@ export const Register: FunctionComponent = () => {
         category: category.key,
       };
 
-      console.log(data);
+      try {
+        await AsyncStorage.setItem(
+          '@gofinances:transactions',
+          JSON.stringify(data)
+        );
+      } catch (err) {
+        Alert.alert('Não foi possivel salvar');
+      }
     },
     [transactionType, category]
   );
+
+  const getAsync = async () => {
+    const transactions = await AsyncStorage.getItem('@gofinances:transactions');
+    console.log(JSON.parse(transactions!));
+  };
+
+  useEffect(() => {
+    getAsync();
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
