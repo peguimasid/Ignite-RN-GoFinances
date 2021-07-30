@@ -25,8 +25,9 @@ export const AppRoutes: FunctionComponent = () => {
         inactiveTintColor: theme.colors.text,
         labelPosition: 'beside-icon',
         style: {
-          paddingVertical: Platform.OS === 'ios' ? 20 : 0,
-          height: 80,
+          paddingBottom: Platform.OS === 'ios' ? 30 : 0,
+          paddingHorizontal: 10,
+          height: 90,
         },
       }}
     >
