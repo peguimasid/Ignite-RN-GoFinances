@@ -65,11 +65,11 @@ export const Register: FunctionComponent = () => {
   });
 
   const handleIncomePress = useCallback(() => {
-    setTransacionType('up');
+    setTransacionType('positive');
   }, []);
 
   const handleOutcomePress = useCallback(() => {
-    setTransacionType('down');
+    setTransacionType('negative');
   }, []);
 
   const openSelectCategoryModal = useCallback(() => {
@@ -92,7 +92,7 @@ export const Register: FunctionComponent = () => {
       const newTransaction = {
         id: String(uuid.v4()),
         ...form,
-        transactionType,
+        type: transactionType,
         category: category.key,
         date: new Date(),
       };
@@ -147,14 +147,18 @@ export const Register: FunctionComponent = () => {
             />
             <TransactionTypesContainer>
               <TransactionTypeButton
-                type="up"
-                selected={transactionType ? transactionType === 'up' : null}
+                type="positive"
+                selected={
+                  transactionType ? transactionType === 'positive' : null
+                }
                 title="Income"
                 onPress={handleIncomePress}
               />
               <TransactionTypeButton
-                type="down"
-                selected={transactionType ? transactionType === 'down' : null}
+                type="negative"
+                selected={
+                  transactionType ? transactionType === 'negative' : null
+                }
                 title="Outcome"
                 onPress={handleOutcomePress}
               />

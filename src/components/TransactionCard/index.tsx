@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useMemo } from "react";
+import React, { FunctionComponent, useMemo } from 'react';
+import { categories } from '../../utils/categories';
 
 import {
   Container,
@@ -9,19 +10,14 @@ import {
   Icon,
   CategoryName,
   Date,
-} from "./styles";
-
-interface ICategory {
-  name: string;
-  icon: string;
-}
+} from './styles';
 
 export interface TransactionCardProps {
-  type: "positive" | "negative";
-  title: string;
+  type: 'positive' | 'negative';
+  name: string;
   amount: string;
   date: string;
-  category: ICategory;
+  category: string;
 }
 
 interface CardProps {
@@ -29,17 +25,28 @@ interface CardProps {
 }
 
 export const TransactionCard: FunctionComponent<CardProps> = ({ data }) => {
+  const { icon, name } = useMemo(() => {
+    const category = categories.find(
+      (category) => category.key === data.category
+    );
+
+    return {
+      icon: category!.icon,
+      name: category!.name,
+    };
+  }, []);
+
   return (
     <Container>
-      <Title>{data.title}</Title>
+      <Title>{data.name}</Title>
       <Amount type={data.type}>
-        {data.type === "negative" && "- "}
+        {data.type === 'negative' && '- '}
         {data.amount}
       </Amount>
       <Footer>
         <Category>
-          <Icon name={data.category.icon} />
-          <CategoryName>{data.category.name}</CategoryName>
+          <Icon name={icon} />
+          <CategoryName>{name}</CategoryName>
         </Category>
         <Date>{data.date}</Date>
       </Footer>

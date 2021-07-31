@@ -84,10 +84,16 @@ export const Transactions = styled.View`
   margin-top: ${RFPercentage(12)}px;
 `;
 
+export const TransactionHeader = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+
 export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
-  margin-bottom: 16px;
 `;
 
 export const TransactionsList = styled(

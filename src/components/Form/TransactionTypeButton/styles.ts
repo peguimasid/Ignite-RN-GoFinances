@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 interface TransactionProps {
-  type: 'up' | 'down';
+  type: 'positive' | 'negative';
   selected: boolean | null;
 }
 
@@ -29,7 +29,7 @@ export const Container = styled(RectButton)<TransactionProps>`
 
   ${({ selected, type, theme }) =>
     selected &&
-    type === 'down' &&
+    type === 'negative' &&
     css`
       background: rgba(232, 63, 91, 0.1);
       border: 0;
@@ -37,7 +37,7 @@ export const Container = styled(RectButton)<TransactionProps>`
 
   ${({ selected, type, theme }) =>
     selected &&
-    type === 'up' &&
+    type === 'positive' &&
     css`
       background: rgba(18, 164, 64, 0.1);
       border: 0;
@@ -54,5 +54,5 @@ export const Icon = styled(Feather)<TransactionProps>`
   font-size: ${RFValue(20)}px;
   margin-right: ${RFValue(14)}px;
   color: ${({ theme, type }) =>
-    type === 'up' ? theme.colors.success : theme.colors.attention};
+    type === 'positive' ? theme.colors.success : theme.colors.attention};
 `;
