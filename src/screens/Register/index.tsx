@@ -6,8 +6,11 @@ import React, {
 } from 'react';
 
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
+
 import { useForm } from 'react-hook-form';
 import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
@@ -50,10 +53,13 @@ export const Register: FunctionComponent = () => {
     name: 'Categoria',
   });
 
+  const navigation = useNavigation();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -84,9 +90,11 @@ export const Register: FunctionComponent = () => {
       }
 
       const newTransaction = {
+        id: String(uuid.v4()),
         ...form,
         transactionType,
         category: category.key,
+        date: new Date(),
       };
 
       try {
@@ -97,6 +105,15 @@ export const Register: FunctionComponent = () => {
           '@gofinances:transactions',
           JSON.stringify([...transactions, newTransaction])
         );
+
+        reset();
+        setTransacionType(null);
+        setCategory({
+          key: 'category',
+          name: 'Categoria',
+        });
+
+        navigation.navigate('Dashboard');
       } catch (err) {
         console.log(err);
         Alert.alert('Não foi possivel salvar');
@@ -104,15 +121,6 @@ export const Register: FunctionComponent = () => {
     },
     [transactionType, category]
   );
-
-  const getAsync = async () => {
-    const transactions = await AsyncStorage.getItem('@gofinances:transactions');
-    console.log(JSON.parse(transactions!));
-  };
-
-  useEffect(() => {
-    getAsync();
-  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

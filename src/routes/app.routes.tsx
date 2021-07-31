@@ -35,6 +35,7 @@ export const AppRoutes: FunctionComponent = () => {
         name="Dashboard"
         component={Dashboard}
         options={{
+          tabBarLabel: 'Listagem',
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons
               name="format-list-bulleted"
@@ -49,6 +50,7 @@ export const AppRoutes: FunctionComponent = () => {
         name="Register"
         component={Register}
         options={{
+          tabBarLabel: 'Cadastrar',
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="attach-money" size={size} color={color} />
           ),
@@ -59,6 +61,7 @@ export const AppRoutes: FunctionComponent = () => {
         name="Resume"
         component={Register}
         options={{
+          tabBarLabel: 'Resumo',
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="pie-chart" size={size} color={color} />
           ),
