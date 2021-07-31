@@ -1,5 +1,9 @@
 import React, { FunctionComponent, useMemo } from 'react';
+import { BorderlessButton } from 'react-native-gesture-handler';
 import { categories } from '../../utils/categories';
+
+import { formatDate } from '../../utils/formatDate';
+import { formatPrice } from '../../utils/formatPrice';
 
 import {
   Container,
@@ -10,21 +14,28 @@ import {
   Icon,
   CategoryName,
   Date,
+  TopWrapper,
+  DeleteIcon,
 } from './styles';
 
-export interface TransactionCardProps {
-  type: 'positive' | 'negative';
+export interface ITransaction {
+  id: string;
   name: string;
-  amount: string;
-  date: string;
   category: string;
+  date: string;
+  amount: number;
+  type: 'positive' | 'negative';
 }
 
 interface CardProps {
-  data: TransactionCardProps;
+  data: ITransaction;
+  onDeleteTransaction(transactionId: string): void;
 }
 
-export const TransactionCard: FunctionComponent<CardProps> = ({ data }) => {
+export const TransactionCard: FunctionComponent<CardProps> = ({
+  data,
+  onDeleteTransaction,
+}) => {
   const { icon, name } = useMemo(() => {
     const category = categories.find(
       (category) => category.key === data.category
@@ -38,17 +49,22 @@ export const TransactionCard: FunctionComponent<CardProps> = ({ data }) => {
 
   return (
     <Container>
-      <Title>{data.name}</Title>
+      <TopWrapper>
+        <Title>{data.name}</Title>
+        <BorderlessButton onPress={() => onDeleteTransaction(data.id)}>
+          <DeleteIcon name="trash-2" />
+        </BorderlessButton>
+      </TopWrapper>
       <Amount type={data.type}>
         {data.type === 'negative' && '- '}
-        {data.amount}
+        {formatPrice(data.amount)}
       </Amount>
       <Footer>
         <Category>
           <Icon name={icon} />
           <CategoryName>{name}</CategoryName>
         </Category>
-        <Date>{data.date}</Date>
+        <Date>{formatDate(data.date)}</Date>
       </Footer>
     </Container>
   );

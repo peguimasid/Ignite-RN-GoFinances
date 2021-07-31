@@ -7,9 +7,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { HighlightCard } from '../../components/HighlightCard';
 import {
+  ITransaction,
   TransactionCard,
-  TransactionCardProps,
 } from '../../components/TransactionCard';
+
 import { BorderlessButton } from 'react-native-gesture-handler';
 
 import {
@@ -31,54 +32,31 @@ import {
 } from './styles';
 import { useEffect } from 'react';
 
-interface ITransaction {
-  id: string;
-  name: string;
-  category: string;
-  date: Date;
-  amount: number;
-  type: string;
-}
-
-export interface ListProps extends TransactionCardProps {
-  id: string;
-}
-
 export const Dashboard: FunctionComponent = () => {
-  const [transactions, setTransactions] = useState<ListProps[] | null>(null);
+  const [transactions, setTransactions] = useState<ITransaction[] | null>(null);
 
   const getTransactions = useCallback(async () => {
     const data = await AsyncStorage.getItem('@gofinances:transactions');
     const transactions = data ? JSON.parse(data) : [];
-    const transactionsFormatted: ListProps[] = transactions.map(
-      ({ id, name, date, amount, category, type }: ITransaction) => {
-        return {
-          id,
-          name,
-          category,
-          type,
-          amount: Number(amount).toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          }),
-          date: Intl.DateTimeFormat('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }).format(new Date(date)),
-        };
-      }
+    setTransactions(transactions);
+  }, []);
+
+  const handleDeleteTransaction = useCallback(async (transactionId) => {
+    const data = await AsyncStorage.getItem('@gofinances:transactions');
+    const transactions: ITransaction[] = data ? JSON.parse(data) : [];
+    const transactionsWithoutDeleted = transactions.filter(
+      (transaction) => transaction.id !== transactionId
     );
 
-    setTransactions(transactionsFormatted);
+    await AsyncStorage.setItem(
+      '@gofinances:transactions',
+      JSON.stringify(transactionsWithoutDeleted)
+    );
+    setTransactions(transactionsWithoutDeleted);
   }, []);
 
   useEffect(() => {
     getTransactions();
-    // async function ok() {
-    //   await AsyncStorage.removeItem('@gofinances:transactions');
-    // }
-    // ok();
   }, []);
 
   useFocusEffect(
@@ -135,7 +113,12 @@ export const Dashboard: FunctionComponent = () => {
         <TransactionsList
           data={transactions}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <TransactionCard data={item} />}
+          renderItem={({ item }) => (
+            <TransactionCard
+              data={item}
+              onDeleteTransaction={handleDeleteTransaction}
+            />
+          )}
         />
       </Transactions>
     </Container>
