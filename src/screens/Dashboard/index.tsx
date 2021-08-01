@@ -42,9 +42,7 @@ export const Dashboard: FunctionComponent = () => {
   }, []);
 
   const handleDeleteTransaction = useCallback(async (transactionId) => {
-    const data = await AsyncStorage.getItem('@gofinances:transactions');
-    const transactions: ITransaction[] = data ? JSON.parse(data) : [];
-    const transactionsWithoutDeleted = transactions.filter(
+    const transactionsWithoutDeleted = transactions!.filter(
       (transaction) => transaction.id !== transactionId
     );
 
