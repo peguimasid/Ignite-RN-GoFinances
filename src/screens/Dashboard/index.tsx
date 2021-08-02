@@ -43,17 +43,20 @@ export const Dashboard: FunctionComponent = () => {
     setTransactions(transactions);
   }, []);
 
-  const handleDeleteTransaction = useCallback(async (transactionId) => {
-    const transactionsWithoutDeleted = transactions!.filter(
-      (transaction) => transaction.id !== transactionId
-    );
+  const handleDeleteTransaction = useCallback(
+    async (transactionId) => {
+      const transactionsWithoutDeleted = transactions!.filter(
+        (transaction) => transaction.id !== transactionId
+      );
 
-    await AsyncStorage.setItem(
-      '@gofinances:transactions',
-      JSON.stringify(transactionsWithoutDeleted)
-    );
-    setTransactions(transactionsWithoutDeleted);
-  }, []);
+      await AsyncStorage.setItem(
+        '@gofinances:transactions',
+        JSON.stringify(transactionsWithoutDeleted)
+      );
+      setTransactions(transactionsWithoutDeleted);
+    },
+    [transactions]
+  );
 
   useEffect(() => {
     getTransactions();
