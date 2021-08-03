@@ -33,6 +33,7 @@ import {
 import { useEffect } from 'react';
 import { useMemo } from 'react';
 import { formatPrice } from '../../utils/formatPrice';
+import { formatDate } from '../../utils/formatDate';
 
 export const Dashboard: FunctionComponent = () => {
   const [transactions, setTransactions] = useState<ITransaction[] | null>(null);
@@ -68,7 +69,7 @@ export const Dashboard: FunctionComponent = () => {
     }, [])
   );
 
-  const { received, spend } = useMemo(() => {
+  const { received, lastReceived, spend, lastSpend } = useMemo(() => {
     if (!transactions) {
       return {
         spend: 0,
@@ -90,9 +91,23 @@ export const Dashboard: FunctionComponent = () => {
         return acc;
       }, 0);
 
+    const lastReceived = Math.max(
+      ...transactions
+        .filter((t) => t.type === 'positive')
+        .map((transaction) => new Date(transaction.date).getTime())
+    );
+
+    const lastSpend = Math.max(
+      ...transactions
+        .filter((t) => t.type === 'negative')
+        .map((transaction) => new Date(transaction.date).getTime())
+    );
+
     return {
       spend,
       received,
+      lastReceived: formatDate({ date: lastReceived, type: 'long' }),
+      lastSpend: formatDate({ date: lastSpend, type: 'long' }),
     };
   }, [transactions]);
 
@@ -122,19 +137,19 @@ export const Dashboard: FunctionComponent = () => {
           type="up"
           title="Entradas"
           amount={formatPrice(received)}
-          lastTransaction="Última entrada dia 13 de abril"
+          lastTransaction={`Última entrada dia ${lastReceived}`}
         />
         <HighlightCard
           type="down"
           title="Saídas"
           amount={formatPrice(spend)}
-          lastTransaction="Última saída dia 03 de abril"
+          lastTransaction={`Última saida dia ${lastSpend}`}
         />
         <HighlightCard
           type="total"
           title="Total"
           amount={formatPrice(received - spend)}
-          lastTransaction="01 à 16 de abril"
+          lastTransaction=""
         />
       </HighlightCards>
       <Transactions>

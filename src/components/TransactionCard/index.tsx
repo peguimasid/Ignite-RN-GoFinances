@@ -64,7 +64,7 @@ export const TransactionCard: FunctionComponent<CardProps> = ({
           <Icon name={icon} />
           <CategoryName>{name}</CategoryName>
         </Category>
-        <Date>{formatDate(data.date)}</Date>
+        <Date>{formatDate({ date: data.date })}</Date>
       </Footer>
     </Container>
   );
