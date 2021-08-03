@@ -7,11 +7,10 @@ import { useTheme } from 'styled-components';
 
 import { Register } from '../screens/Register';
 import { Dashboard } from '../screens/Dashboard';
+import { Resume } from '../screens/Resume';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Platform } from 'react-native';
-
-// import { Container } from './styles';
 
 export const AppRoutes: FunctionComponent = () => {
   const { Navigator, Screen } = createBottomTabNavigator();
@@ -59,7 +58,7 @@ export const AppRoutes: FunctionComponent = () => {
 
       <Screen
         name="Resume"
-        component={Register}
+        component={Resume}
         options={{
           tabBarLabel: 'Resumo',
           tabBarIcon: ({ size, color }) => (
