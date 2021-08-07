@@ -88,7 +88,7 @@ export const Resume: FunctionComponent = () => {
   return (
     <Container>
       <Header>
-        <Title>Resumo por categoria</Title>
+        <Title>Gastos por categoria</Title>
       </Header>
       <GraphicContainer>
         <VictoryPie
