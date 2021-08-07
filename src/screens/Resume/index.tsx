@@ -15,14 +15,26 @@ import { categories } from '../../utils/categories';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HistoryCard from '../../components/HistoryCard';
-import { ScrollView } from 'react-native-gesture-handler';
+
+import { Feather } from '@expo/vector-icons';
+import { BorderlessButton, ScrollView } from 'react-native-gesture-handler';
 import { VictoryPie } from 'victory-native';
 
 import { ITransaction } from '../../components/TransactionCard';
 
-import { Container, Header, Title, GraphicContainer } from './styles';
+import {
+  Container,
+  Header,
+  Title,
+  GraphicContainer,
+  SelectMonth,
+  MonthText,
+} from './styles';
+import { useTheme } from 'styled-components';
 
 export const Resume: FunctionComponent = () => {
+  const theme = useTheme();
+
   const [transactions, setTransactions] = useState<ITransaction[] | null>(null);
 
   const getTransactions = useCallback(async () => {
@@ -90,23 +102,37 @@ export const Resume: FunctionComponent = () => {
       <Header>
         <Title>Gastos por categoria</Title>
       </Header>
-      <GraphicContainer>
-        <VictoryPie
-          data={graphicData}
-          colorScale={graphicColors}
-          x="percentage"
-          y="amount"
-          labelRadius={80}
-          style={{
-            labels: {
-              fill: 'white',
-              fontSize: RFValue(15),
-              fontWeight: 'bold',
-            },
-          }}
-        />
-      </GraphicContainer>
-      <ScrollView contentContainerStyle={{ padding: 24 }}>
+
+      <SelectMonth>
+        <BorderlessButton onPress={() => console.log('mes anterior')}>
+          <Feather name="chevron-left" size={24} color={theme.colors.title} />
+        </BorderlessButton>
+        <MonthText>maio, 2021</MonthText>
+        <BorderlessButton onPress={() => console.log('proximo mes')}>
+          <Feather name="chevron-right" size={24} color={theme.colors.title} />
+        </BorderlessButton>
+      </SelectMonth>
+
+      <ScrollView
+        contentContainerStyle={{ padding: 24 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <GraphicContainer>
+          <VictoryPie
+            data={graphicData}
+            colorScale={graphicColors}
+            x="percentage"
+            y="amount"
+            labelRadius={80}
+            style={{
+              labels: {
+                fill: 'white',
+                fontSize: RFValue(15),
+                fontWeight: 'bold',
+              },
+            }}
+          />
+        </GraphicContainer>
         {transactions &&
           categories.map(({ color, key, name }) => {
             if (getAmount(key)) {

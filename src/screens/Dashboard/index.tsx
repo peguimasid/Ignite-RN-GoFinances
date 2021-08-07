@@ -11,8 +11,6 @@ import {
   TransactionCard,
 } from '../../components/TransactionCard';
 
-import { BorderlessButton } from 'react-native-gesture-handler';
-
 import {
   Container,
   Header,

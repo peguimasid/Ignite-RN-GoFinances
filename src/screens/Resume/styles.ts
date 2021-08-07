@@ -25,3 +25,20 @@ export const GraphicContainer = styled.View`
   width: 100%;
   align-items: center;
 `;
+
+export const SelectMonth = styled.View`
+  width: 100%;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 15px 0;
+  padding: 0 24px;
+`;
+
+export const MonthText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(20)}px;
+  color: ${({ theme }) => theme.colors.title};
+`;

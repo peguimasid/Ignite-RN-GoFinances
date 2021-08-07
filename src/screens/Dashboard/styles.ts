@@ -9,8 +9,6 @@ import {
 
 import { BorderlessButton } from 'react-native-gesture-handler';
 
-import { ListProps } from '.';
-
 export const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.colors.background};
@@ -96,9 +94,7 @@ export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
-export const TransactionsList = styled(
-  FlatList as new () => FlatList<ListProps>
-).attrs({
+export const TransactionsList = styled(FlatList).attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: { paddingBottom: getBottomSpace() },
 })``;
