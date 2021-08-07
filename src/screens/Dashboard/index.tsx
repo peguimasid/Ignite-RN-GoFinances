@@ -94,13 +94,15 @@ export const Dashboard: FunctionComponent = () => {
     const lastReceived = Math.max(
       ...transactions
         .filter((t) => t.type === 'positive')
-        .map((transaction) => new Date(transaction.date).getTime())
+        .map((transaction) => new Date(transaction.date).getTime()),
+      0
     );
 
     const lastSpend = Math.max(
       ...transactions
         .filter((t) => t.type === 'negative')
-        .map((transaction) => new Date(transaction.date).getTime())
+        .map((transaction) => new Date(transaction.date).getTime()),
+      0
     );
 
     return {
@@ -137,13 +139,21 @@ export const Dashboard: FunctionComponent = () => {
           type="up"
           title="Entradas"
           amount={formatPrice(received)}
-          lastTransaction={`Última entrada dia ${lastReceived}`}
+          lastTransaction={
+            transactions && transactions.length
+              ? `Última entrada dia ${lastReceived}`
+              : ''
+          }
         />
         <HighlightCard
           type="down"
           title="Saídas"
           amount={formatPrice(spend)}
-          lastTransaction={`Última saida dia ${lastSpend}`}
+          lastTransaction={
+            transactions && transactions.length
+              ? `Última saida dia ${lastSpend}`
+              : ''
+          }
         />
         <HighlightCard
           type="total"
