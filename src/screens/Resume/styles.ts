@@ -42,3 +42,29 @@ export const MonthText = styled.Text`
   font-size: ${RFValue(20)}px;
   color: ${({ theme }) => theme.colors.title};
 `;
+
+export const EmptyStateContainer = styled.View`
+  width: 100%;
+  height: 100%;
+
+  align-items: center;
+
+  padding: 0 20px;
+  margin-top: 50%;
+`;
+
+export const EmptyStateTitle = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(20)}px;
+  color: ${({ theme }) => theme.colors.title};
+  text-align: center;
+`;
+
+export const EmptyStateDescription = styled.Text`
+  margin-top: ${RFValue(15)}px;
+
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(15)}px;
+  color: ${({ theme }) => theme.colors.title};
+  text-align: center;
+`;
